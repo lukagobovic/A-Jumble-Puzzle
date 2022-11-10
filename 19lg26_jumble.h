@@ -1,5 +1,5 @@
-#ifndef 19lg26_jumble_H
-#define 19lg26_jumble_H
+#ifndef JUMBLE_H
+#define JUMBLE_H
 
 #include <iostream>
 #include <string>
@@ -35,6 +35,9 @@ public:
     char getDirection() const;
 
     charArrayPtr *getJumble() const;
+
+    char generateRandomCharacter();
+    void fillWithRandomCharacters();
 };
 
 class BadJumbleException
