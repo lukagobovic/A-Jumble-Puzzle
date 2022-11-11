@@ -17,7 +17,8 @@ using namespace std;
 
 // Displays the puzzle to the screen.
 // Row and column numbers are added to the display.
-void showJumble(const charArrayPtr* jumble, const int size) {
+void showJumble(const charArrayPtr *jumble, const int size)
+{
 	int i, j;
 	cout << "\n  ";
 	for (i = 0; i < size; i++)
@@ -26,7 +27,8 @@ void showJumble(const charArrayPtr* jumble, const int size) {
 		else
 			cout << i << " ";
 	cout << endl;
-	for (i = 0; i < size; i++) {
+	for (i = 0; i < size; i++)
+	{
 		if (i < 10)
 			cout << " " << i << " ";
 		else
@@ -39,7 +41,8 @@ void showJumble(const charArrayPtr* jumble, const int size) {
 } // end showJumble
 
 // How quickly can you find the hidden string?
-void playGame() {
+void playGame()
+{
 	string toHide;
 	string difficulty;
 	int guessRow, guessCol;
@@ -51,10 +54,13 @@ void playGame() {
 	cout << "\nChoose your difficulty level: \"easy\", \"medium\" or \"hard\": ";
 	cin >> difficulty;
 
-	JumblePuzzle* jp;
-	try {
+	JumblePuzzle *jp;
+	try
+	{
 		jp = new JumblePuzzle(toHide, difficulty);
-	} catch (BadJumbleException& e) {
+	}
+	catch (BadJumbleException &e)
+	{
 		cerr << e.what();
 		return;
 	}
@@ -70,10 +76,11 @@ void playGame() {
 	if (guessRow == jp->getRowPos() && guessCol == jp->getColPos() &&
 			guessDirection == jp->getDirection())
 		cout << "You found it!" << endl;
-	else {
+	else
+	{
 		cout << "Wrong location..." << endl;
 		cout << "The location is row: " << jp->getRowPos() << " col: " << jp->getColPos()
-				<< ", direction: " << jp->getDirection() << endl;
+				 << ", direction: " << jp->getDirection() << endl;
 	}
 	cout << "You took " << (finish - start) << " seconds." << endl;
 	delete jp;
@@ -86,7 +93,68 @@ void playGame() {
 // thrown when they should be, that the puzzle is the correct size and is formed properly, and
 // that the accessors return what they should.  You can add these unit tests as you develop your
 // code ("TDD") and comment out the supplied tests until you are ready for them.
-void testJumble() {
+void testJumble()
+{
+
+	// Start of my unit tests
+	cout << "Test invalid difficulty" << endl;
+	try
+	{
+		JumblePuzzle jp10("test", "random");
+	}
+	catch (BadJumbleException &e)
+	{
+		cerr << e.what() << endl;
+	}
+
+	cout << "Test if uppercase difficulty is invalid" << endl;
+	try
+	{
+		JumblePuzzle jp11("test", "MEDIUM");
+	}
+	catch (BadJumbleException &e)
+	{
+		cerr << e.what() << endl;
+	}
+
+	cout << "Testing empty char input" << endl;
+	try
+	{
+		JumblePuzzle jp12("", "easy");
+	}
+	catch (BadJumbleException &e)
+	{
+		cerr << e.what() << endl;
+	}
+
+	cout << "Testing less than 3 char input" << endl;
+	try
+	{
+		JumblePuzzle jp13("HI", "easy");
+	}
+	catch (BadJumbleException &e)
+	{
+		cerr << e.what() << endl;
+	}
+
+	cout << "Testing more than 10 char input" << endl;
+	try
+	{
+		JumblePuzzle jp14("abcdefghijklmnop", "easy");
+	}
+	catch (BadJumbleException &e)
+	{
+		cerr << e.what() << endl;
+	}
+
+	cout << "Testing all accessor methods" << endl;
+	JumblePuzzle jp15("CMPE320", "easy");
+	showJumble(jp15.getJumble(), jp15.getSize());
+	cout << "Size should be 5*2 = 10: " << jp15.getSize() << endl;
+	cout << "Row Position: " << jp15.getRowPos() << endl;
+	cout << "Col Position: " << jp15.getColPos() << endl;
+	cout << "Direction: " << jp15.getDirection() << endl;
+	
 
 	// Test copy constructor for proper operation
 	cout << "Testing copy constructor:" << endl;
@@ -98,7 +166,7 @@ void testJumble() {
 	showJumble(jp2.getJumble(), jp2.getSize());
 
 	// Test aliasing from copy constructor
-	charArrayPtr* puzzle = jp2.getJumble();
+	charArrayPtr *puzzle = jp2.getJumble();
 	int sz = jp2.getSize();
 	for (int i = 0; i < sz; i++)
 		puzzle[i][i] = '.';
@@ -154,7 +222,8 @@ void testJumble() {
 
 } // end testJumble
 
-int main() {
+int main()
+{
 
 	//testJumble();
 

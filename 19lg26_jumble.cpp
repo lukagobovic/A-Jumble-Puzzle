@@ -21,11 +21,14 @@ JumblePuzzle::JumblePuzzle(const string &word, const string &difficulty)
 {
     size = word.length();
     int wordLen = size;
+    //Make sure that the word is the proper length, otherwise throw an exception
     if (size < 3 || size > 10)
     {
         throw BadJumbleException("Invalid length, word must be between 3 and 10 characters");
     }
 
+    //Set the size according to the appropriate difficulty
+    //If no size matches, throw the appropriate exception
     if (difficulty == "easy")
     {
         size = size * 2;
@@ -46,49 +49,31 @@ JumblePuzzle::JumblePuzzle(const string &word, const string &difficulty)
 
     srand(time(0));
 
-    // putting random chars into array
-   // fillWithRandomCharacters();
-
+    //There are 4 possible directions, n e s w, choose one of the randomly
     int dir = rand() % 4;
-    int south, east;
+    //Random placements
+    int placementA, placementB;
     string directions = "nesw";
+    //Choose a random direction from the string above
     direction = directions[dir];
 
-    int placementDirSouth[4] = {-1, 0, 1, 0};
-    int placementDirEast[4] = {0, 1, 0, -1};
+    int placementDirA[4] = {-1, 0, 1, 0};
+    int placementDirB[4] = {0, 1, 0, -1};
 
-    south = placementDirSouth[dir];
-    east = placementDirEast[dir];
+    placementA = placementDirA[dir];
+    placementB = placementDirB[dir];
 
-    // int val1S, val2S;
-    // int val1E, val2E;
+    int val1S, val2S;
+    int val1E, val2E;
 
-    // if (south)
-    //     val1S = wordLen - 1;
-    // else
-    //     val1S = 0;
+    //Essentially in the following statements, we generate a random row and column, and then we use 
+    //conditional expressions to check if the word can fit in the given location and direction. If 
+    //not, we move onto the next direction and try again until a fit is found
+    row = rand() % (size - (placementA ? wordLen - 1 : 0)) + (placementA == -1 ? wordLen - 1 : 0);
+    col = rand() % (size - (placementB ? wordLen - 1 : 0)) + (placementB == -1 ? wordLen - 1 : 0);
 
-    // if (south == -1)
-    //     val2S = wordLen - 1;
-    // else
-    //     val2S = 0;
-
-    // if (east)
-    //     val1E = wordLen - 1;
-    // else
-    //     val1E = 0;
-
-    // if (east == -1)
-    //     val2E = wordLen - 1;
-    // else
-    //     val2E = 0;
-
-    // row = rand() % (size - val1S) + val2S;
-    // col = rand() % (size - val1E) + val2E;
-
-    row = rand() % (size - (south ? wordLen - 1 : 0)) + (south == -1 ? wordLen - 1 : 0);
-    col = rand() % (size - (east ? wordLen - 1 : 0)) + (east == -1 ? wordLen - 1 : 0);
-
+    //Once we find a location that works, we fill the matrix with random characters using the
+    //generate random char function, which returns a random character from a-z 
     matrix = new char *[size];
     for (int i = 0; i < size; ++i)
     {
@@ -100,17 +85,19 @@ JumblePuzzle::JumblePuzzle(const string &word, const string &difficulty)
         }
     }
 
+    //Once we generate the matrix, we add in the word in the location that it fit in
     int i = row;
     int j = col;
     int count;
     for (count = 0; count < wordLen; count++)
     {
         matrix[i][j] = word[count];
-        i += south;
-        j += east;
+        i += placementA;
+        j += placementB;
     }
 }
 
+//Copy constructor that uses the various accessor methods to copy all of the values over to the new puzzle
 JumblePuzzle::JumblePuzzle(const JumblePuzzle &puzzle)
 {
     row = puzzle.getRowPos();
@@ -120,10 +107,12 @@ JumblePuzzle::JumblePuzzle(const JumblePuzzle &puzzle)
     matrix = puzzle.getJumble();
 }
 
+//Overloading the = operator
 JumblePuzzle &JumblePuzzle::operator=(const JumblePuzzle &correct)
 {
     if (this != &correct)
     {
+        //if they arent equal, make sure to delete the matrix and clear it
         for (int i = 0; i < size; i++)
         {
             delete[] matrix[i];
@@ -132,6 +121,7 @@ JumblePuzzle &JumblePuzzle::operator=(const JumblePuzzle &correct)
         delete[] matrix;
         matrix = nullptr;
 
+        //Copying all of the values
         row = correct.getRowPos();
         col = correct.getColPos();
         size = correct.getSize();
@@ -142,6 +132,7 @@ JumblePuzzle &JumblePuzzle::operator=(const JumblePuzzle &correct)
     return *this;
 }
 
+//Destructor that will delete the array of pointers and then set all of them to NULL
 JumblePuzzle::~JumblePuzzle()
 {
     for(int i = 0; i < size; i++)
@@ -153,14 +144,18 @@ JumblePuzzle::~JumblePuzzle()
     matrix = nullptr;
 }
 
-
+//Create a new matrix that holds the same data, but will prevent memory leaks
+//This is why we return a copy, to avoid memory leaks and other issues
 charArrayPtr *JumblePuzzle::getJumble() const
 {
+    //Process is almost exaclty the same as in constructor
+    //Initialize the matrix
     charArrayPtr *duplicatedJumple = new char *[size];
     for (int i = 0; i < size; i++)
     {
         duplicatedJumple[i] = new char[size];
     }
+    //Nested loop to copy all of the data over from the old to new
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
@@ -168,31 +163,38 @@ charArrayPtr *JumblePuzzle::getJumble() const
             duplicatedJumple[i][j] = matrix[i][j];
         }
     }
+    //Return new one.
     return duplicatedJumple;
 }
 
+//Function returns a random character from a-z using ASCII values 
 char JumblePuzzle::generateRandomCharacter()
 {
     return char(rand() % 26 + 97);
 }
 
+//Returns size
 int JumblePuzzle::getSize() const
 {
     return size;
 }
+//Returns row
 int JumblePuzzle::getRowPos() const
 {
     return row;
 }
+//Returns column
 int JumblePuzzle::getColPos() const
 {
     return col;
 }
+//Returns direction
 char JumblePuzzle::getDirection() const
 {
     return direction;
 }
 
+//Bad Jumble Exception class for error handling
 BadJumbleException::BadJumbleException(const string& m) : message(m) {}
 
 string& BadJumbleException::what()

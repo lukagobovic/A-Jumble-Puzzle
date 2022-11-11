@@ -14,33 +14,43 @@ using namespace std;
 
 class JumblePuzzle
 {
+//All of the private fields used in jumble puzzle, prevents unwanted access, which could cause leaks
 private:
-    int size;
-    int row;
-    int col;
+    int size; //Size of matrix
+    int row;  //Current row
+    int col;  //Current column
     char direction; // nesw
-    string word;
-    charArrayPtr *matrix;
+    string word;    //the word to be found/hidden
+    charArrayPtr *matrix;   //The jumble puzzle matrix of type charArrayPtr, redeuces the need for double star
 
 public:
+    //Constructor that takes in a word and difficulty, and sets up the game as expected
     JumblePuzzle(const string &word, const string &difficulty);
+    //This is a copy constructor that returns a copy to the original jumble matrix, preventing memory leaks
     JumblePuzzle(const JumblePuzzle& puzzle);
+    //Default construtor, sets all parameters to either 0 or nullptr
     JumblePuzzle();
+    //Destructor that gets rid of the old matrix after either a successful find or termination of the program
+    //Aims to clean up memory and the heap
     ~JumblePuzzle();
 
+    //Assignment operator overloading 
     JumblePuzzle& operator=(const JumblePuzzle& puzzle);
 
-    int getSize() const;
-    int getRowPos() const;
-    int getColPos() const;
-    char getDirection() const;
-
+    
+    //These are the accessors that are used not only in the test file, but also in the implementation file for the copy construtor
+    int getSize() const; //Returns size
+    int getRowPos() const; //Returns row
+    int getColPos() const; //Returns col
+    char getDirection() const; //Returns the direction
+    //Using the typedef defined above in this file, this function will return the jumble matrix
     charArrayPtr *getJumble() const;
 
+    //Will generate and return a random character from a-z, using random ASCII values
     char generateRandomCharacter();
-   // void fillWithRandomCharacters();
 };
 
+//Class used for throwing various exceptions related to inputs
 class BadJumbleException
 {
 private:
