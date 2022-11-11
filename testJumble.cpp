@@ -12,7 +12,7 @@
 #include <string>
 #include <iostream>
 #include <ctime>
-#include "jumble.h"
+#include "19lg26_jumble.h"
 using namespace std;
 
 // Displays the puzzle to the screen.
@@ -156,10 +156,10 @@ void testJumble() {
 
 int main() {
 
-	testJumble();
+	//testJumble();
 
 	// Make sure your class works before you play the game!
-	//playGame();
+	playGame();
 
 	return 0;
 } // end main

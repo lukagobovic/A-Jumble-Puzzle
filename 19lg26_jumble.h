@@ -15,7 +15,7 @@ using namespace std;
 class JumblePuzzle
 {
 private:
-    int len;
+    int size;
     int row;
     int col;
     char direction; // nesw
@@ -25,19 +25,20 @@ private:
 public:
     JumblePuzzle(const string &word, const string &difficulty);
     JumblePuzzle(const JumblePuzzle& puzzle);
+    JumblePuzzle();
     ~JumblePuzzle();
 
     JumblePuzzle& operator=(const JumblePuzzle& puzzle);
 
     int getSize() const;
-    int getRowPosition() const;
-    int getColPosition() const;
+    int getRowPos() const;
+    int getColPos() const;
     char getDirection() const;
 
     charArrayPtr *getJumble() const;
 
     char generateRandomCharacter();
-    void fillWithRandomCharacters();
+   // void fillWithRandomCharacters();
 };
 
 class BadJumbleException
