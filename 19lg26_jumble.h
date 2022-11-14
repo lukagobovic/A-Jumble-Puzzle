@@ -8,6 +8,7 @@
 #include "sstream"
 #include <stdlib.h>
 
+//Typedef to make things more convenient when declaring, as opposed to using ** in the creation of the matrix
 typedef char *charArrayPtr;
 
 using namespace std;
@@ -28,7 +29,7 @@ public:
     JumblePuzzle(const string &word, const string &difficulty);
     //This is a copy constructor that returns a copy to the original jumble matrix, preventing memory leaks
     JumblePuzzle(const JumblePuzzle& puzzle);
-    //Default construtor, sets all parameters to either 0 or nullptr
+    //Default construtor, sets all parameters to either 0 or nullptr. While not needed it is good to have incase someone creates an instance with no fields
     JumblePuzzle();
     //Destructor that gets rid of the old matrix after either a successful find or termination of the program
     //Aims to clean up memory and the heap

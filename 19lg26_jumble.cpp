@@ -1,3 +1,6 @@
+/*
+* Jumble Implementation FIle
+*/
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,6 +11,7 @@
 
 using namespace std;
 
+//Default constructor that will simply generate an empty matrix and initialize all of the parameters to 0
 JumblePuzzle::JumblePuzzle()
 {
     matrix = nullptr;
@@ -104,6 +108,7 @@ JumblePuzzle::JumblePuzzle(const JumblePuzzle &puzzle)
     col = puzzle.getColPos();
     size = puzzle.getSize();
     direction = puzzle.getDirection();
+    //get jumble ensures that we avoid memory leaks
     matrix = puzzle.getJumble();
 }
 
@@ -132,7 +137,7 @@ JumblePuzzle &JumblePuzzle::operator=(const JumblePuzzle &correct)
     return *this;
 }
 
-//Destructor that will delete the array of pointers and then set all of them to NULL
+//Destructor that will delete the array of pointers and then set all of them to NULL, making sure we avoid issues with memory
 JumblePuzzle::~JumblePuzzle()
 {
     for(int i = 0; i < size; i++)

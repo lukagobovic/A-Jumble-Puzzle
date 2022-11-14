@@ -97,6 +97,7 @@ void testJumble()
 {
 
 	// Start of my unit tests
+	//This test will test an invalid difficulty being passed in
 	cout << "Test invalid difficulty" << endl;
 	try
 	{
@@ -107,6 +108,7 @@ void testJumble()
 		cerr << e.what() << endl;
 	}
 
+	//This test will pass in an uppercase difficulty, which should also throw an error for an invalid difficulty
 	cout << "Test if uppercase difficulty is invalid" << endl;
 	try
 	{
@@ -117,6 +119,7 @@ void testJumble()
 		cerr << e.what() << endl;
 	}
 
+	//The following test will check invalid input word lengths, with the first one checking an empty word
 	cout << "Testing empty char input" << endl;
 	try
 	{
@@ -127,6 +130,7 @@ void testJumble()
 		cerr << e.what() << endl;
 	}
 
+	//This will test if the word is less than 3 characters
 	cout << "Testing less than 3 char input" << endl;
 	try
 	{
@@ -137,6 +141,7 @@ void testJumble()
 		cerr << e.what() << endl;
 	}
 
+	//This will test is the word is longer than 10 characters
 	cout << "Testing more than 10 char input" << endl;
 	try
 	{
@@ -147,14 +152,17 @@ void testJumble()
 		cerr << e.what() << endl;
 	}
 
+	//This will test all of the accessor methods to ensure that the corrct values are returned
 	cout << "Testing all accessor methods" << endl;
 	JumblePuzzle jp15("CMPE320", "easy");
 	showJumble(jp15.getJumble(), jp15.getSize());
+	//For example, this will check that the size is correct, and that the row, col and direction values are correct too
 	cout << "Size should be 5*2 = 10: " << jp15.getSize() << endl;
 	cout << "Row Position: " << jp15.getRowPos() << endl;
 	cout << "Col Position: " << jp15.getColPos() << endl;
 	cout << "Direction: " << jp15.getDirection() << endl;
 	
+	//End of my unit tests
 
 	// Test copy constructor for proper operation
 	cout << "Testing copy constructor:" << endl;
@@ -225,10 +233,10 @@ void testJumble()
 int main()
 {
 
-	//testJumble();
+	testJumble();
 
 	// Make sure your class works before you play the game!
-	playGame();
+	//playGame();
 
 	return 0;
 } // end main
